@@ -1,14 +1,46 @@
-import React from "react";
-import { TodoList } from "./components/TodoList";
-import { ErrorBoundary } from "./components/ErrorBoundary";
-export const App: React.FC = () => {
-  return (
-    <main className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      <ErrorBoundary>
-        <TodoList />
-      </ErrorBoundary>
-    </main>
-  );
-};
+import React, { useState } from 'react';
 
-export default App;
+interface Todo {
+  id: number;
+  text: string;
+}
+
+export default function TodoList() {
+  const [todo, setToDo] = useState<Todo[]>([]);
+  const [input, setInput] = useState<string>('');
+
+  const [updatable,setUpdatable] = useState<boolean>(false);
+
+  const addTodo = () => {
+    if (!input.trim()) return;
+
+    const newItem: Item = {
+      id: Date.now(),
+      text: input
+    };
+
+    setToDo((prevItems) => [...prevItems, newItem]);
+    
+    setInput(''); 
+  };
+
+
+
+  return (
+    <div>
+      <input 
+        type="text" 
+        value={input} 
+        onChange={(e) => setInput(e.target.value)} 
+      />
+      <button onClick={addTodo}>Add Item</button>
+      
+      <ul>
+        {todo.map((todo) => (
+          <li onDoubleClick={() => setUpdatable(true)} key={todo.id}>{updatable?<input/>:todo.text}</li>
+        ))
+        }
+      </ul>
+    </div>
+  );
+}
