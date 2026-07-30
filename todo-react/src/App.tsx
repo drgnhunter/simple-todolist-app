@@ -46,6 +46,13 @@ export default function TodoList() {
     setInput2("");
   };
 
+  const deleteTodo = (todoId: number) => {
+
+    setToDo(todo.filter((item) => item.id !== todoId));
+
+   
+  };
+
   const cancelEdit = () => {
     setEditingId(0);
     setInput2("");
@@ -83,8 +90,11 @@ export default function TodoList() {
                 <button onClick={cancelEdit}>x</button>
               </>
             ) : (
-              <span >
-                {item.text}
+              <span>
+                <>
+                  {item.text}
+                  <button onClick={() => deleteTodo(item.id)}>Delete</button>
+                </>
               </span>
             )}
           </li>
